@@ -21,7 +21,7 @@ public class BeautyProductsDto {
         if (beautyProductRequest.getId() != null) {
             beautyProducts.setId(beautyProductRequest.getId());
         }
-        beautyProducts.setBrandName(beautyProductRequest.getBrand());
+        beautyProducts.setBrand(beautyProductRequest.getBrand());
         beautyProducts.setPrice(beautyProductRequest.getPrice());
         beautyProducts.setDescription(beautyProductRequest.getDescription());
         beautyProducts.setTitle(beautyProductRequest.getTitle());

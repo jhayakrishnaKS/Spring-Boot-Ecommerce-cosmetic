@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Category {
     private Long id;
 
     @Column(nullable = false, length = 200)
+    @NotBlank(message="category cannot be empty")
     private String title;
 
     @OneToMany(mappedBy = "category")

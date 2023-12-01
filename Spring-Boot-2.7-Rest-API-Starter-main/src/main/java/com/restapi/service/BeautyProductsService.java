@@ -8,9 +8,12 @@ import com.restapi.repository.BeautyProductsRepository;
 import com.restapi.repository.CategoryRepository;
 import com.restapi.request.BeautyProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,6 +24,10 @@ public class BeautyProductsService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private StorageService storageService;
+
 
     @Autowired
     private BeautyProductsRepository beautyProductsRepository;
@@ -58,5 +65,14 @@ public class BeautyProductsService {
     public List<BeautyProducts> deleteById(Integer id) {
         beautyProductsRepository.deleteById(Long.valueOf(id));
         return findAll();
+    }
+
+    public File getFile(Long id) throws IOException {
+        BeautyProducts beautyProducts = beautyProductsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("id", "id", id));
+
+        Resource resource = storageService.loadFileAsResource(beautyProducts.getPhoto());
+
+        return resource.getFile();
     }
 }

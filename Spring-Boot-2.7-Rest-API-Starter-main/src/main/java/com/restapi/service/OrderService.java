@@ -56,7 +56,7 @@ public class OrderService {
             OrderedBeautyProduct orderedBeautyProduct = new OrderedBeautyProduct();
             orderedBeautyProduct.setOrder(order);
             orderedBeautyProduct.setTitle(cart.getBeautyProducts().getTitle());
-            orderedBeautyProduct.setBrand(cart.getBeautyProducts().getBrandName());
+            orderedBeautyProduct.setBrand(cart.getBeautyProducts().getBrand());
             orderedBeautyProduct.setDescription(cart.getBeautyProducts().getDescription());
             orderedBeautyProduct.setPrice(cart.getBeautyProducts().getPrice());
             orderedBeautyProduct.setCount(cart.getCount());
@@ -82,7 +82,10 @@ public class OrderService {
         return orderStatusRepository.findAll();
     }
 
+    @Transactional
     public List<OrderResponse> updateOrderStatus(Long orderId, Long statusId) {
+        System.out.println(orderId);
+        System.out.println(statusId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("orderId", "orderId", orderId));
 
@@ -92,7 +95,6 @@ public class OrderService {
         order.setOrderStatus(orderStatus);
 
         orderRepository.save(order);
-
         return getAllOrders();
 
     }

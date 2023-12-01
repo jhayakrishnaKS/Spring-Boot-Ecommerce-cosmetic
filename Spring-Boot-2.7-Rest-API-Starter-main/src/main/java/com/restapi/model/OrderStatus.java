@@ -27,7 +27,7 @@ public class OrderStatus {
     private String status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "orderStatus")
+    @OneToMany(mappedBy = "orderStatus", cascade = CascadeType.ALL)
     private List<Order> orderList;
 
     @CreationTimestamp

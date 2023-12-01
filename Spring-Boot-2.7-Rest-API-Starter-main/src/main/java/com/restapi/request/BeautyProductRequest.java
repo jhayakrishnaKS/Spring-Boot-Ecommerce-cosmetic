@@ -18,20 +18,20 @@ public class BeautyProductRequest {
 
     private Long categoryId;
 
-    @NotEmpty(message = "Field cannot be Empty")
+    @NotEmpty(message = "title cannot be Empty")
     @Size(min = 3,message = "title should have at least 3 characters")
     private String title;
 
-    @NotEmpty(message = "Field cannot be Empty")
+    @NotEmpty(message = "description cannot be Empty")
     @Size(min = 3,message = "description should have at least 3 characters")
     private String description;
 
-    @NotEmpty(message = "Field cannot be Empty")
+    @NotEmpty(message = "brand cannot be Empty")
     @Size(min = 3,message = "brand name should have at least 3 characters")
-    private String Brand;
+    private String brand;
 
 
     private Double price;
 
-    private byte[] photo;
+    private String photo;
 }

@@ -14,10 +14,10 @@ public class CartRequest {
 
     private Long userId;
 
-    @NotNull(message = "Field cannot be null")
+    @NotNull(message = "beautyProductId cannot be null")
     private Long beautyProductId;
 
-    @NotNull(message = "Field cannot be null")
+    @NotNull(message = "count cannot be null")
     private Integer count;
 
 }

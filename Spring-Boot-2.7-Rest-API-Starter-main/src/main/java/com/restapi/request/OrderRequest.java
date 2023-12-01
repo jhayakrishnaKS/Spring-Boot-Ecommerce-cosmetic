@@ -15,6 +15,6 @@ public class OrderRequest {
 
     private Long userId;
 
-    @NotNull(message = "Field cannot be null")
+    @NotNull(message = "addressId cannot be null")
     private Long addressId;
 }

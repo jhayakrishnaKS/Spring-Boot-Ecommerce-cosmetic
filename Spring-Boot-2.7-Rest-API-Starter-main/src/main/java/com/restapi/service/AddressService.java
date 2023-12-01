@@ -44,12 +44,14 @@ public class AddressService {
 
     // Update address endpoint
     public AddressResponse update(AddressRequest addressRequest) {
+        System.out.println(addressRequest);
         Address address = addressDto.mapToAddress(addressRequest);
         AppUser appUser = userRepository.findById(addressRequest.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("userId", "userId",
                         addressRequest.getUserId()));
         address.setAppUser(appUser);
         addressRepository.save(address);
+
         return findAll();
     }
 

@@ -53,7 +53,7 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser")
     private List<Cart> carts;
 
-    @OneToMany(mappedBy = "appUser")
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private List<Address> addressList;
 
     @CreationTimestamp

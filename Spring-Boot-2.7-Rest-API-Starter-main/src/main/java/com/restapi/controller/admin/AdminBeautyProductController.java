@@ -5,13 +5,22 @@ import com.restapi.model.Role;
 import com.restapi.request.BeautyProductRequest;
 import com.restapi.response.common.APIResponse;
 import com.restapi.service.BeautyProductsService;
+import com.restapi.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,6 +32,8 @@ public class AdminBeautyProductController {
     @Autowired
     private APIResponse apiResponse;
 
+    @Autowired
+    private StorageService storageService;
     @Autowired
     private BeautyProductsService beautyProductsService;
 
@@ -36,13 +47,37 @@ public class AdminBeautyProductController {
     }
 
     // Create a new beauty product
-    @PostMapping
-    public ResponseEntity<APIResponse> createBeautyProduct(@Valid @RequestBody BeautyProductRequest beautyProductRequest) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<APIResponse> createBeautyProduct(@Valid @RequestBody BeautyProductRequest beautyProductRequest) {
+//        List<BeautyProducts> beautyProducts = beautyProductsService.createBeautyProduct(beautyProductRequest);
+//        apiResponse.setStatus(HttpStatus.OK.value());
+//        apiResponse.setData(beautyProducts);
+//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//    }@RequestParam("count")Integer count)
+    public ResponseEntity<APIResponse> createBeautyProduct(@RequestParam("photo") MultipartFile photo,
+//                                                           @RequestParam("id") Long id,
+                                                           @RequestParam("categoryId")Long categoryId,
+                                                           @RequestParam("title") String title,
+                                                           @RequestParam("description") String description,
+                                                           @RequestParam("brand") String brand,
+                                                           @RequestParam("price") Double price) throws IOException {
+
+        String file = storageService.storeFile(photo);
+        BeautyProductRequest beautyProductRequest = new BeautyProductRequest();
+//        beautyProductRequest.setId(id);
+        beautyProductRequest.setCategoryId(categoryId);
+        beautyProductRequest.setTitle(title);
+        beautyProductRequest.setDescription(description);
+        beautyProductRequest.setBrand(brand);
+        beautyProductRequest.setPrice(price);
+        beautyProductRequest.setPhoto(file);
+
         List<BeautyProducts> beautyProducts = beautyProductsService.createBeautyProduct(beautyProductRequest);
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(beautyProducts);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
 
     // Update an existing beauty product
     @PutMapping
@@ -61,4 +96,24 @@ public class AdminBeautyProductController {
         apiResponse.setData(beautyProducts);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/downloadFile/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws IOException {
+
+        File file = beautyProductsService.getFile(id);
+
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
+
 }

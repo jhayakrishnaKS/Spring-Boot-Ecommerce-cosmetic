@@ -30,7 +30,7 @@ public class BeautyProducts {
     private String description;
 
     @Column(nullable = false, length = 200)
-    private String BrandName;
+    private String brand;
 
     @Column(nullable = false, length = 200)
     private Double price;
@@ -38,9 +38,9 @@ public class BeautyProducts {
     @Transient
     private Integer count;
 
-    @Lob
-    @Column(name = "photo", columnDefinition="BLOB")
-    private byte[] photo;
+
+    @Column(name = "photo")
+    private String photo;
 
     @JsonIgnore
     @ManyToOne
