@@ -48,12 +48,6 @@ public class AdminBeautyProductController {
 
     // Create a new beauty product
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<APIResponse> createBeautyProduct(@Valid @RequestBody BeautyProductRequest beautyProductRequest) {
-//        List<BeautyProducts> beautyProducts = beautyProductsService.createBeautyProduct(beautyProductRequest);
-//        apiResponse.setStatus(HttpStatus.OK.value());
-//        apiResponse.setData(beautyProducts);
-//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-//    }@RequestParam("count")Integer count)
     public ResponseEntity<APIResponse> createBeautyProduct(@RequestParam("photo") MultipartFile photo,
 //                                                           @RequestParam("id") Long id,
                                                            @RequestParam("categoryId")Long categoryId,
@@ -80,8 +74,21 @@ public class AdminBeautyProductController {
 
 
     // Update an existing beauty product
-    @PutMapping
-    public ResponseEntity<APIResponse> updateBeautyProduct(@Valid @RequestBody BeautyProductRequest beautyProductRequest) {
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<APIResponse> updateBeautyProduct(
+                                                           @RequestParam("id") Long id,
+                                                           @RequestParam("title") String title,
+                                                           @RequestParam("description") String description,
+                                                           @RequestParam("brand") String brand,
+                                                           @RequestParam("price") Double price) throws IOException {
+
+        BeautyProductRequest beautyProductRequest = new BeautyProductRequest();
+        beautyProductRequest.setId(id);
+
+        beautyProductRequest.setTitle(title);
+        beautyProductRequest.setDescription(description);
+        beautyProductRequest.setBrand(brand);
+        beautyProductRequest.setPrice(price);
         List<BeautyProducts> beautyProducts = beautyProductsService.updateBeautyProduct(beautyProductRequest);
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(beautyProducts);

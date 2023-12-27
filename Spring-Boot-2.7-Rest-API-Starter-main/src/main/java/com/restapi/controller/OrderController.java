@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
-//@PreAuthorize("hasRole('ROLE_USER')")
 @RolesAllowed(Role.USER)
 public class OrderController {
 

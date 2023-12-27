@@ -16,7 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor@Table(name = "BeautyProduct")
+@AllArgsConstructor
+@Table(name = "BeautyProduct")
 public class BeautyProducts {
 
     @Id
@@ -43,13 +44,13 @@ public class BeautyProducts {
     private String photo;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "beautyProducts")
+    @OneToMany(mappedBy = "beautyProducts",fetch = FetchType.LAZY)
     private List<Cart> carts = new ArrayList<>();
 
     @CreationTimestamp

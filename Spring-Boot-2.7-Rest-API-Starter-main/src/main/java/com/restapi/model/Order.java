@@ -16,7 +16,7 @@ import java.util.List; // Added import
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orders") // don't user order
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -24,7 +24,7 @@ public class Order {
     private Long id;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderedBeautyProduct> orderedBeautyProductList; // Corrected type to List
+    private List<OrderedBeautyProduct> orderedBeautyProductList;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

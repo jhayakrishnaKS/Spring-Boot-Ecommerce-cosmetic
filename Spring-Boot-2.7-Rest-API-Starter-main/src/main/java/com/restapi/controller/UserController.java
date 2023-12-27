@@ -4,6 +4,7 @@ import com.restapi.model.AppUser;
 import com.restapi.model.Role;
 import com.restapi.request.AddressRequest;
 import com.restapi.response.AddressResponse;
+import com.restapi.response.UserResponse;
 import com.restapi.response.common.APIResponse;
 import com.restapi.service.AddressService;
 import com.restapi.service.UserService;
@@ -17,7 +18,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/user")
-//@PreAuthorize("hasRole('ROLE_USER')")
 @RolesAllowed(Role.USER)
 public class UserController {
 

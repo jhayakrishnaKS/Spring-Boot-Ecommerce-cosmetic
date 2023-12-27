@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/cart")
-//@PreAuthorize("hasRole('ROLE_USER')")
 @RolesAllowed(Role.USER)
 public class CartController {
 
@@ -43,9 +42,18 @@ public class CartController {
     // Delete beauty products from cart endpoint
     @DeleteMapping("/{userId}/{beautyProductsCartId}")
     public ResponseEntity<APIResponse> deleteBeautyProductsFromCart(@PathVariable Long userId,
-    @PathVariable Long beautyProductsCartId) {
+                                                                    @PathVariable Long beautyProductsCartId) {
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(cartService.deleteBeautyProductsFromCart(userId, beautyProductsCartId));
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    // Update cart endpoint (PUT)
+    @PutMapping("/{userId}")
+    public ResponseEntity<APIResponse> updateCart(@PathVariable Long userId,
+                                                  @Valid @RequestBody CartRequest cartRequest) {
+        apiResponse.setStatus(HttpStatus.OK.value());
+        apiResponse.setData(cartService.updateCart(userId, cartRequest));
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

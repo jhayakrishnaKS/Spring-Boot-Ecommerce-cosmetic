@@ -25,7 +25,7 @@ public class OrderResponse {
 
     private String username;
 
-    private Address address;
+    private List<Address> addressList;
 
     private String orderStatus;
 }

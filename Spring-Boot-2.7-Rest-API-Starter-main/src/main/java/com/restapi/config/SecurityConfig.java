@@ -3,6 +3,7 @@ package com.restapi.config;
 import com.restapi.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+//    @Value("${security.permit-all-endpoints}")
+//    private String permitAllEndpoints;
 
     @Autowired
     @Qualifier("delegatedAuthenticationEntryPoint")
@@ -53,6 +57,8 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers("/api/downloadFile/**")
                 .permitAll()
+//                .antMatchers(permitAllEndpoints.split(","))
+//                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().httpBasic()

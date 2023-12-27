@@ -28,7 +28,7 @@ public class Category {
     @NotBlank(message="category cannot be empty")
     private String title;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     private List<BeautyProducts> beautyProductsList = new ArrayList<>();
 
     @CreationTimestamp

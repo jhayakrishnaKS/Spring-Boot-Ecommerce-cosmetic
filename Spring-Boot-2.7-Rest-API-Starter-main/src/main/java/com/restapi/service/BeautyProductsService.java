@@ -52,11 +52,12 @@ public class BeautyProductsService {
     // Update beauty product endpoint
     @Transactional
     public List<BeautyProducts> updateBeautyProduct(BeautyProductRequest beautyProductRequest) {
-        BeautyProducts beautyProducts = beautyProductsDto.mapToBeautyProducts(beautyProductRequest);
-        Category category = categoryRepository.findById(beautyProductRequest.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("CategoryId",
-                        "CategoryId", beautyProductRequest.getCategoryId()));
-        beautyProducts.setCategory(category);
+        BeautyProducts beautyProducts = beautyProductsRepository.findById(beautyProductRequest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Id", "Id", beautyProductRequest.getId()));
+        beautyProducts.setTitle(beautyProductRequest.getTitle());
+        beautyProducts.setDescription(beautyProductRequest.getDescription());
+        beautyProducts.setBrand(beautyProductRequest.getBrand());
+        beautyProducts.setPrice(beautyProductRequest.getPrice());
         beautyProductsRepository.save(beautyProducts);
         return findAll();
     }

@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-@Table(name = "users") // don't use User
+@Table(name = "users")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,19 +41,19 @@ public class AppUser {
     private String name;
 
     @JsonIgnore
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role roles;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "appUser")
+    @OneToMany(mappedBy = "appUser",fetch = FetchType.LAZY)
     private List<Order> orderList = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "appUser")
+    @OneToMany(mappedBy = "appUser",fetch = FetchType.LAZY)
     private List<Cart> carts;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Address> addressList;
 
     @CreationTimestamp

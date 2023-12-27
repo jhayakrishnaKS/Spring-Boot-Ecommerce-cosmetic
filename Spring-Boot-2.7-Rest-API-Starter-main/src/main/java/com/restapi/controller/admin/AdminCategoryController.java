@@ -15,7 +15,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin/category")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RolesAllowed(Role.ADMIN)
 public class AdminCategoryController {
 

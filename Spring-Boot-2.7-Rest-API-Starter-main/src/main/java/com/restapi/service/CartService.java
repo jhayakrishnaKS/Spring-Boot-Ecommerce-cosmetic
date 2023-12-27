@@ -84,4 +84,45 @@ public class CartService {
         }
         return findUserCart(userId);
     }
+
+
+    public List<Cart> updateCart(Long userId, CartRequest cartRequest) {
+        AppUser appUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("userId", "userId", userId));
+
+        BeautyProducts beautyProducts = beautyProductsRepository.findById(cartRequest.getBeautyProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("beautyProductsId", "beautyProductsId", cartRequest.getBeautyProductId()));
+
+        Optional<List<Cart>> cartOptional = cartRepository.findUserCart(userId);
+
+        // checking if cart is present
+        if (cartOptional.isPresent()) {
+            boolean isPresent = false;
+            for (Cart cart : cartOptional.get()) {
+                if (cart.getBeautyProducts().getId().equals(cartRequest.getBeautyProductId())) {
+                    cart.setCount(cartRequest.getCount());
+                    cartRepository.save(cart);
+                    isPresent = true;
+                }
+            }
+
+            // cart not present
+            if (!isPresent) {
+                Cart cart = new Cart();
+                cart.setAppUser(appUser);
+                cart.setBeautyProducts(beautyProducts);
+                cart.setCount(cartRequest.getCount());
+                cartRepository.save(cart);
+            }
+        } else {
+            // cart not present
+            Cart cart = new Cart();
+            cart.setAppUser(appUser);
+            cart.setBeautyProducts(beautyProducts);
+            cart.setCount(cartRequest.getCount());
+            cartRepository.save(cart);
+        }
+        return findUserCart(userId);
+    }
+
 }

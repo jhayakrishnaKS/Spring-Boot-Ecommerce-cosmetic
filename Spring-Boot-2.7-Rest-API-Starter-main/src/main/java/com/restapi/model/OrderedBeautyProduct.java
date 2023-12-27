@@ -22,7 +22,7 @@ public class OrderedBeautyProduct {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 

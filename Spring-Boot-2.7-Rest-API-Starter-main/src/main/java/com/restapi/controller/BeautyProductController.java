@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/BeautyProduct")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RolesAllowed(Role.USER)
 public class BeautyProductController {
     @Autowired

@@ -8,12 +8,10 @@ import com.restapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -38,6 +36,14 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<APIResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         AuthResponse registeredUser = userService.register(registerRequest);
+        apiResponse.setStatus(HttpStatus.OK.value());
+        apiResponse.setData(registeredUser);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/allusers")
+    public ResponseEntity<APIResponse> register() {
+        List<AuthResponse> registeredUser = userService.findAllUsers();
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(registeredUser);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

@@ -34,12 +34,12 @@ public class Address {
     private Integer zipcode;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser appUser;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "address")
+    @OneToMany(mappedBy = "address",fetch = FetchType.LAZY)
     private List<Order> orderList;
 
     @CreationTimestamp

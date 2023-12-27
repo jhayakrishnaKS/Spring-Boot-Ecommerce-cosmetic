@@ -22,7 +22,7 @@ public class OrderDto {
             orderResponse.setName(order.getAppUser().getName());
             orderResponse.setUsername(order.getAppUser().getUsername());
             orderResponse.setOrderStatus(order.getOrderStatus().getStatus());
-            orderResponse.setAddress(order.getAddress());
+            orderResponse.setAddressList(order.getAppUser().getAddressList());
             orderResponse.setOrderedBeautyProductList(order.getOrderedBeautyProductList());
             orderResponseList.add(orderResponse);
         }
