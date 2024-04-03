@@ -27,7 +27,7 @@ public class OrderStatus {
     private String status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "orderStatus", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "orderStatus",fetch = FetchType.LAZY)
     private List<Order> orderList;
 
     @CreationTimestamp

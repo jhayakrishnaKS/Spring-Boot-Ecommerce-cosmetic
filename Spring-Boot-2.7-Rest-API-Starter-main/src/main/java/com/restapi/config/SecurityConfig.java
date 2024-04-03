@@ -57,6 +57,8 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers("/api/downloadFile/**")
                 .permitAll()
+                .antMatchers("/api/BeautyProduct/all")
+                .permitAll()
 //                .antMatchers(permitAllEndpoints.split(","))
 //                .permitAll()
                 .anyRequest()

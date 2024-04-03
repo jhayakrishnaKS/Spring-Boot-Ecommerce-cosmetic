@@ -3,6 +3,7 @@ package com.restapi.controller.admin;
 import com.restapi.model.OrderStatus;
 import com.restapi.model.Role;
 import com.restapi.request.OrderStatusRequest;
+import com.restapi.response.CategoryResponse;
 import com.restapi.response.OrderResponse;
 import com.restapi.response.common.APIResponse;
 import com.restapi.service.OrderService;
@@ -16,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/order")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RolesAllowed(Role.ADMIN)
 public class AdminOrderController {
 
@@ -62,6 +62,13 @@ public class AdminOrderController {
                         orderStatusRequest.getStatusId());
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(orderList);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> deleteOrder(@PathVariable Long id) {
+        List<OrderResponse> orderResponses=orderService.deleteById(id);
+        apiResponse.setStatus(HttpStatus.OK.value());
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -65,7 +66,7 @@ public class UserService {
     }
 
     public List<AppUser> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream().filter(appUser -> appUser.getRoles().getId()==1).collect(Collectors.toList());
     }
 
     public AppUser findUserById(Long id) {

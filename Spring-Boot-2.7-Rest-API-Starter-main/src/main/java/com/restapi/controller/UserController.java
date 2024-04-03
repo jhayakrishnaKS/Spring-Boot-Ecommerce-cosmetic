@@ -40,9 +40,8 @@ public class UserController {
     // Create address endpoint
     @PostMapping("/address")
     public ResponseEntity<APIResponse> createAddress(@Valid @RequestBody AddressRequest addressRequest) {
-        AddressResponse addressResponse = addressService.create(addressRequest);
+         addressService.create(addressRequest);
         apiResponse.setStatus(HttpStatus.OK.value());
-        apiResponse.setData(addressResponse.getAddressList());
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

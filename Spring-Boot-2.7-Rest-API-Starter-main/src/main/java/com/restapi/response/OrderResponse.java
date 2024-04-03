@@ -27,5 +27,7 @@ public class OrderResponse {
 
     private List<Address> addressList;
 
+    private Address address;
+
     private String orderStatus;
 }

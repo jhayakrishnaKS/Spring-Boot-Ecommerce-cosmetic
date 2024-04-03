@@ -24,6 +24,8 @@ public class AddressDto {
         address.setAddress(addressRequest.getAddress());
         address.setCity(addressRequest.getCity());
         address.setZipcode(addressRequest.getZipcode());
+        address.setState(addressRequest.getState());
+        address.setPhoneNumber(addressRequest.getPhoneNumber());
         return address;
     }
 

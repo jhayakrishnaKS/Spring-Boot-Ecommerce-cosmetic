@@ -36,26 +36,34 @@ public class CartService {
 
     // Add to cart endpoint
     @Transactional
-    public List<Cart> addToCart(CartRequest cartRequest) {
+    public void addToCart(CartRequest cartRequest) {
+        // Retrieve the user based on userId from the userRepository
         AppUser appUser = userRepository.findById(cartRequest.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("userId", "userId",
                         cartRequest.getUserId()));
 
+        // Retrieve the beauty product based on beautyProductsId from the beautyProductsRepository
         BeautyProducts beautyProducts = beautyProductsRepository.findById(cartRequest.getBeautyProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("beautyProductsId", "beautyProductsId",
                         cartRequest.getBeautyProductId()));
 
+        // Retrieve the user's cart if it exists
         Optional<List<Cart>> cartOptional = cartRepository.findUserCart(cartRequest.getUserId());
 
         if (cartOptional.isPresent()) {
+            // If the cart exists, iterate through each cart item
             boolean isPresent = false;
             for (Cart cart : cartOptional.get()) {
+                // Check if the beauty product in the cart matches the requested one
                 if (cart.getBeautyProducts().getId().equals(cartRequest.getBeautyProductId())) {
+                    // If matched, update the count and save it to the database
                     cart.setCount(cartRequest.getCount());
                     cartRepository.save(cart);
                     isPresent = true;
                 }
             }
+
+            // If the beauty product is not present in the cart, create a new cart entry
             if (!isPresent) {
                 Cart cart = new Cart();
                 cart.setAppUser(appUser);
@@ -64,14 +72,17 @@ public class CartService {
                 cartRepository.save(cart);
             }
         } else {
+            // If the user doesn't have a cart, create a new cart entry
             Cart cart = new Cart();
             cart.setAppUser(appUser);
             cart.setBeautyProducts(beautyProducts);
             cart.setCount(cartRequest.getCount());
             cartRepository.save(cart);
         }
-        return findUserCart(cartRequest.getUserId());
+
+        // Return the updated user cart by calling the findUserCart method
     }
+
 
     // Delete beauty products from cart endpoint
     @Transactional

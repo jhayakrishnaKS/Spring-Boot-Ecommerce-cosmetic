@@ -32,14 +32,14 @@ public class AddressService {
 
     // Create address endpoint
     @Transactional
-    public AddressResponse create(AddressRequest addressRequest) {
+    public void create(AddressRequest addressRequest) {
         Address address = addressDto.mapToAddress(addressRequest);
         AppUser appUser = userRepository.findById(addressRequest.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("userId", "userId",
                         addressRequest.getUserId()));
         address.setAppUser(appUser);
         addressRepository.save(address);
-        return findAll();
+
     }
 
     // Update address endpoint

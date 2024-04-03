@@ -76,4 +76,8 @@ public class BeautyProductsService {
 
         return resource.getFile();
     }
+
+    public List<BeautyProducts> findByCategoryId(Long categoryId) {
+        return beautyProductsRepository.findByCategoryId(categoryId);
+    }
 }

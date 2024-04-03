@@ -4,6 +4,7 @@ import com.restapi.dto.OrderDto;
 import com.restapi.exception.common.ResourceNotFoundException;
 import com.restapi.model.*;
 import com.restapi.repository.*;
+import com.restapi.response.CategoryResponse;
 import com.restapi.response.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,18 @@ public class OrderService {
     @Autowired
     private OrderStatusRepository orderStatusRepository;
 
+    public  List<OrderResponse> deleteById(Long id) {
+         orderRepository.deleteById(id);
+         return getAllOrders();
+    }
+
+
     @Transactional
     public List<OrderResponse> placeOrder(Long userId, Long addressId) {
         AppUser appUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("userId", "userId", userId));
 
-        Address address = addressRepository.findById(addressId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("addressId", "addressId", addressId));
+        Address address = addressRepository.findAddressByUserId(userId);
 
         OrderStatus orderStatus = orderStatusRepository.findById(1L)
                 .orElseThrow(() ->

@@ -25,7 +25,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/BeautyProduct")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RolesAllowed(Role.ADMIN)
 public class AdminBeautyProductController {
 
@@ -47,25 +46,34 @@ public class AdminBeautyProductController {
     }
 
     // Create a new beauty product
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<APIResponse> createBeautyProduct(@RequestParam("photo") MultipartFile photo,
-//                                                           @RequestParam("id") Long id,
-                                                           @RequestParam("categoryId")Long categoryId,
-                                                           @RequestParam("title") String title,
-                                                           @RequestParam("description") String description,
-                                                           @RequestParam("brand") String brand,
-                                                           @RequestParam("price") Double price) throws IOException {
-
-        String file = storageService.storeFile(photo);
-        BeautyProductRequest beautyProductRequest = new BeautyProductRequest();
-//        beautyProductRequest.setId(id);
-        beautyProductRequest.setCategoryId(categoryId);
-        beautyProductRequest.setTitle(title);
-        beautyProductRequest.setDescription(description);
-        beautyProductRequest.setBrand(brand);
-        beautyProductRequest.setPrice(price);
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<APIResponse> createBeautyProduct(@RequestParam("photo") MultipartFile photo,
+////                                                           @RequestParam("id") Long id,
+//                                                           @RequestParam("categoryId")Long categoryId,
+//                                                           @RequestParam("title") String title,
+//                                                           @RequestParam("description") String description,
+//                                                           @RequestParam("brand") String brand,
+//                                                           @RequestParam("price") Double price) throws IOException {
+//
+//        String file = storageService.storeFile(photo);
+//        BeautyProductRequest beautyProductRequest = new BeautyProductRequest();
+////        beautyProductRequest.setId(id);
+//        beautyProductRequest.setCategoryId(categoryId);
+//        beautyProductRequest.setTitle(title);
+//        beautyProductRequest.setDescription(description);
+//        beautyProductRequest.setBrand(brand);
+//        beautyProductRequest.setPrice(price);
+//        beautyProductRequest.setPhoto(file);
+//
+//        List<BeautyProducts> beautyProducts = beautyProductsService.createBeautyProduct(beautyProductRequest);
+//        apiResponse.setStatus(HttpStatus.OK.value());
+//        apiResponse.setData(beautyProducts);
+//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//    }
+    @PostMapping(consumes ="multipart/form-data",produces = "application/json")
+    public ResponseEntity<APIResponse> createBeautyProduct(@ModelAttribute BeautyProductRequest beautyProductRequest) throws IOException {
+        String file = storageService.storeFile(beautyProductRequest.getImage());
         beautyProductRequest.setPhoto(file);
-
         List<BeautyProducts> beautyProducts = beautyProductsService.createBeautyProduct(beautyProductRequest);
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(beautyProducts);
@@ -104,23 +112,23 @@ public class AdminBeautyProductController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/downloadFile/{id}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws IOException {
-
-        File file = beautyProductsService.getFile(id);
-
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(file.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
-    }
+//    @GetMapping("/downloadFile/{id}")
+//    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws IOException {
+//
+//        File file = beautyProductsService.getFile(id);
+//
+//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//        headers.add("Pragma", "no-cache");
+//        headers.add("Expires", "0");
+//
+//        return ResponseEntity.ok()
+//                .headers(headers)
+//                .contentLength(file.length())
+//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                .body(resource);
+//    }
 
 }

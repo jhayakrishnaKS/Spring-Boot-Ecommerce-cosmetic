@@ -50,7 +50,7 @@ public class AppUser {
     private List<Order> orderList = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "appUser",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "appUser",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Cart> carts;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL,fetch = FetchType.LAZY)

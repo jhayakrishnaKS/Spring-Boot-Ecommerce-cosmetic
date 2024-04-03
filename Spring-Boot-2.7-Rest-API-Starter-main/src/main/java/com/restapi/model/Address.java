@@ -33,16 +33,24 @@ public class Address {
     @Column(nullable = false, length = 200)
     private Integer zipcode;
 
+    @Column(nullable = false, length = 200)
+    private String state;
+
+    @Column(nullable = false, length = 200)
+    private Long phoneNumber;
+
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser appUser;
 
+
     @JsonIgnore
-    @OneToMany(mappedBy = "address",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "address",fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orderList;
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
 }

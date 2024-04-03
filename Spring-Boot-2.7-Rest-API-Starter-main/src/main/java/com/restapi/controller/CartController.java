@@ -35,7 +35,7 @@ public class CartController {
     @PostMapping
     public ResponseEntity<APIResponse> addToCart(@Valid @RequestBody CartRequest cartRequest) {
         apiResponse.setStatus(HttpStatus.OK.value());
-        apiResponse.setData(cartService.addToCart(cartRequest));
+        cartService.addToCart(cartRequest);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

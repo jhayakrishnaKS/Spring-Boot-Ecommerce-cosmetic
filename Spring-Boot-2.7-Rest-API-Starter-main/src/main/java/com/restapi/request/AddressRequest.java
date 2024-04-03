@@ -27,7 +27,15 @@ public class AddressRequest {
     @Size(min = 3, message = "Enter the correct city name")
     private String city;
 
+    @NotEmpty(message = "state cannot be empty")
+    @Size(min = 3, message = "Enter the correct state name")
+    private String state;
+
     @NotNull(message = "Zipcode cannot be null")
     @Digits(integer = 6, fraction = 0, message = "Zipcode must be a numeric value with up to 6 digits")
     private Integer zipcode;
+
+    @NotNull(message = "phoneNumber cannot be null")
+    @Digits(integer = 10, fraction = 0, message = "phoneNumber must be a numeric value with up to 10 digits")
+    private Long phoneNumber;
 }
